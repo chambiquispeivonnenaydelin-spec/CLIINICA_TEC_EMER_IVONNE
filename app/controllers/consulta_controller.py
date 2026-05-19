@@ -9,8 +9,14 @@ consulta_bp = Blueprint("consulta", __name__, url_prefix="/consultas")
 
 @consulta_bp.route("/")
 def listar_consultas():
-    consultas = Consulta.query.all()
-    return render_template("consultas/lista.html", consultas=consultas)
+    fecha = request.args.get("fecha")
+    query = Consulta.query
+
+    if fecha:
+        query = query.filter(Consulta.fecha == datetime.strptime(fecha, "%Y-%m-%d").date())
+
+    consultas = query.all()
+    return render_template("consultas/lista.html", consultas=consultas, fecha=fecha)
 
 from datetime import datetime
 
