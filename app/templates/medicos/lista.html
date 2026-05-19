@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Médicos</h1>
+    <a href="{{ url_for('medico.crear_medico') }}" class="btn btn-primary">
+        + Nuevo médico
+    </a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Especialidad</th>
+            <th>Teléfono</th>
+            <th>Correo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for medico in medicos %}
+        <tr>
+            <td>{{ medico.nombre }}</td>
+            <td>{{ medico.especialidad }}</td>
+            <td>{{ medico.telefono }}</td>
+            <td>{{ medico.correo }}</td>
+            <td>
+                <a href="{{ url_for('medico.editar_medico', id=medico.id) }}" class="btn btn-sm btn-outline-primary me-1">
+                    Editar
+                </a>
+                <form action="{{ url_for('medico.eliminar_medico', id=medico.id) }}" method="POST" style="display:inline;">
+                    <button type="submit"
+                            class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('¿Seguro que deseas eliminar este médico?');">
+                        Eliminar
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

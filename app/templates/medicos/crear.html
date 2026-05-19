@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block title %}Crear Médico - Clínica Médica{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card card-soft">
+            <div class="card-body p-4">
+                <h1 class="h3 mb-4">Registrar médico</h1>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" name="nombre" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Especialidad</label>
+                        <input type="text" name="especialidad" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Teléfono</label>
+                        <input type="text" name="telefono" class="form-control" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Correo</label>
+                        <input type="email" name="correo" class="form-control" required>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <a href="{{ url_for('medico.listar_medicos') }}" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

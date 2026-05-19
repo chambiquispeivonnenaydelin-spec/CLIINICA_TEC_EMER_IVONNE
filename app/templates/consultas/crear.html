@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}Nueva consulta{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+        <h1 class="mb-4">Nueva consulta</h1>
+
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">Fecha</label>
+                <input type="date" name="fecha" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Diagnóstico</label>
+                <input type="text" name="diagnostico" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Tratamiento</label>
+                <input type="text" name="tratamiento" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Médico</label>
+                <select name="medico_id" class="form-select" required>
+                    <option value="">Seleccione un médico</option>
+                    {% for medico in medicos %}
+                    <option value="{{ medico.id }}">{{ medico.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Paciente</label>
+                <select name="paciente_id" class="form-select" required>
+                    <option value="">Seleccione un paciente</option>
+                    {% for paciente in pacientes %}
+                    <option value="{{ paciente.id }}">{{ paciente.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a href="{{ url_for('consulta.listar_consultas') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

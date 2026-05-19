@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}Editar paciente{% endblock %}
+
+{% block content %}
+<h1>Editar paciente</h1>
+
+<form method="POST">
+    <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <input type="text" name="nombre" class="form-control" value="{{ paciente.nombre }}">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Edad</label>
+        <input type="number" name="edad" class="form-control" value="{{ paciente.edad }}">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Dirección</label>
+        <input type="text" name="direccion" class="form-control" value="{{ paciente.direccion }}">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Teléfono</label>
+        <input type="text" name="telefono" class="form-control" value="{{ paciente.telefono }}">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+</form>
+{% endblock %}

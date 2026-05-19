@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}Inicio - Clínica Médica{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h1 class="fw-bold">Sistema de Gestión de Clínica Médica</h1>
+    <p class="text-muted">Administra médicos, pacientes y consultas desde un panel ordenado y moderno.</p>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="card card-soft p-3 bg-primary text-white">
+            <div class="d-flex align-items-center">
+                <div class="me-3 fs-2"><i class="bi bi-person-badge"></i></div>
+                <div>
+                    <div class="fw-semibold">Médicos</div>
+                    <small>Registro y control</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card card-soft p-3 bg-success text-white">
+            <div class="d-flex align-items-center">
+                <div class="me-3 fs-2"><i class="bi bi-people"></i></div>
+                <div>
+                    <div class="fw-semibold">Pacientes</div>
+                    <small>Datos personales</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card card-soft p-3 bg-warning text-dark">
+            <div class="d-flex align-items-center">
+                <div class="me-3 fs-2"><i class="bi bi-clipboard2-pulse"></i></div>
+                <div>
+                    <div class="fw-semibold">Consultas</div>
+                    <small>Atenciones médicas</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-soft">
+    <div class="card-body p-4">
+        <h3 class="h5 mb-3">Accesos rápidos</h3>
+        <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary" href="{{ url_for('medico.listar_medicos') }}">Ver médicos</a>
+            <a class="btn btn-outline-primary" href="{{ url_for('paciente.listar_pacientes') }}">Ver pacientes</a>
+            <a class="btn btn-outline-secondary" href="{{ url_for('consulta.listar_consultas') }}">Ver consultas</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

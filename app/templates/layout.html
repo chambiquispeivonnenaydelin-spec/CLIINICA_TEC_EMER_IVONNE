@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Clínica Médica{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #f0f4f8;
+            --primary: #0ea47a;
+            --primary-dark: #0b8a66;
+            --primary-glow: rgba(14,164,122,0.18);
+            --sidebar-bg: #0d1117;
+            --sidebar-border: rgba(255,255,255,0.06);
+            --card-radius: 20px;
+            --text-main: #0d1117;
+            --text-muted: #6b7280;
+            --white: #ffffff;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        /* ── LAYOUT ── */
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background: var(--sidebar-bg);
+            display: flex;
+            flex-direction: column;
+            padding: 28px 18px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            flex-shrink: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 8px 28px;
+            border-bottom: 1px solid var(--sidebar-border);
+            margin-bottom: 24px;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+            box-shadow: 0 0 20px rgba(14,164,122,0.35);
+            flex-shrink: 0;
+        }
+
+        .brand-text {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 17px;
+            color: #ffffff;
+            letter-spacing: -0.2px;
+            line-height: 1.1;
+        }
+
+        .brand-sub {
+            font-size: 10px;
+            color: rgba(255,255,255,0.35);
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        /* Nav section label */
+        .nav-label {
+            font-size: 10px;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.25);
+            font-weight: 600;
+            padding: 0 10px;
+            margin-bottom: 8px;
+        }
+
+        .nav-group {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            margin-bottom: 28px;
+        }
+
+        .nav-link-side {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255,255,255,0.55);
+            text-decoration: none;
+            padding: 11px 12px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link-side .nav-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link-side:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.07);
+        }
+
+        .nav-link-side:hover .nav-icon {
+            background: rgba(14,164,122,0.2);
+            color: var(--primary);
+        }
+
+        .nav-link-side.active {
+            color: #fff;
+            background: rgba(14,164,122,0.14);
+        }
+
+        .nav-link-side.active .nav-icon {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 0 14px rgba(14,164,122,0.4);
+        }
+
+        .nav-link-side.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 60%;
+            background: var(--primary);
+            border-radius: 0 3px 3px 0;
+        }
+
+        /* Sidebar footer */
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid var(--sidebar-border);
+        }
+
+        .user-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.04);
+        }
+
+        .user-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #0ea47a, #0b6e52);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .user-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.85);
+        }
+
+        .user-role {
+            font-size: 11px;
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* ── MAIN CONTENT ── */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        /* ── TOPBAR ── */
+        .topbar {
+            background: rgba(255,255,255,0.80);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            padding: 16px 36px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .topbar-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.3px;
+        }
+
+        .topbar-breadcrumb {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 1px;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .topbar-badge {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: white;
+            border: 1px solid rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+
+        .topbar-badge:hover {
+            background: var(--primary-glow);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* ── PAGE BODY ── */
+        .page-body {
+            padding: 32px 36px;
+            flex: 1;
+            animation: fadeUp 0.4s ease both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── CARDS ── */
+        .card-soft {
+            background: white;
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: var(--card-radius);
+            box-shadow: 0 4px 24px rgba(13,17,23,0.06);
+            padding: 24px;
+        }
+
+        /* ── BUTTONS ── */
+        .btn {
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 9px 20px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        /* ── TABLE ── */
+        .table thead th {
+            border-bottom: 0;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 12px 16px;
+        }
+
+        .table tbody td {
+            padding: 14px 16px;
+            vertical-align: middle;
+            font-size: 14px;
+            border-color: rgba(0,0,0,0.04);
+        }
+
+        .table tbody tr:hover {
+            background: rgba(14,164,122,0.04);
+        }
+
+        /* ── FORMS ── */
+        .form-control, .form-select {
+            border-radius: 12px;
+            border: 1.5px solid rgba(0,0,0,0.1);
+            padding: 10px 14px;
+            font-size: 14px;
+            transition: all 0.18s ease;
+            background: #fafafa;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-glow);
+            background: white;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        /* ── PAGE HEADER (used in child templates) ── */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+        }
+
+        .page-header-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+        }
+
+        .page-header-sub {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* ── STATUS BADGES ── */
+        .badge-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-status::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .badge-success { background: rgba(14,164,122,0.1); color: #0ea47a; }
+        .badge-warning { background: rgba(245,158,11,0.1); color: #d97706; }
+        .badge-danger  { background: rgba(239,68,68,0.1);  color: #dc2626; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 64px;
+                padding: 20px 10px;
+                overflow: visible;
+            }
+            .brand-text, .brand-sub, .nav-link-side span, .nav-label,
+            .user-name, .user-role { display: none; }
+            .brand { padding-bottom: 16px; justify-content: center; }
+            .nav-link-side { justify-content: center; padding: 10px; }
+            .nav-link-side .nav-icon { width: 36px; height: 36px; }
+            .user-card { justify-content: center; padding: 8px; }
+            .page-body, .topbar { padding-left: 20px; padding-right: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="bi bi-heart-pulse-fill"></i>
+            </div>
+            <div>
+                <div class="brand-text">Clinica</div>
+                <div class="brand-sub">Sistema medico</div>
+            </div>
+        </div>
+
+        <!-- Menu principal -->
+        <div class="nav-label">Menu</div>
+        <nav class="nav-group">
+            <a class="nav-link-side" href="{{ url_for('main.index') }}">
+                <span class="nav-icon"><i class="bi bi-house"></i></span>
+                <span>Inicio</span>
+            </a>
+            <a class="nav-link-side" href="{{ url_for('medico.listar_medicos') }}">
+                <span class="nav-icon"><i class="bi bi-person-badge"></i></span>
+                <span>Medicos</span>
+            </a>
+            <a class="nav-link-side" href="{{ url_for('paciente.listar_pacientes') }}">
+                <span class="nav-icon"><i class="bi bi-people"></i></span>
+                <span>Pacientes</span>
+            </a>
+            <a class="nav-link-side" href="{{ url_for('consulta.listar_consultas') }}">
+                <span class="nav-icon"><i class="bi bi-clipboard2-pulse"></i></span>
+                <span>Consultas</span>
+            </a>
+        </nav>
+
+        <!-- Acceso -->
+        <div class="nav-label">Acceso</div>
+        <nav class="nav-group">
+            <a class="nav-link-side" href="{{ url_for('auth.register') }}">
+                <span class="nav-icon"><i class="bi bi-person-plus"></i></span>
+                <span>Registro</span>
+            </a>
+            <a class="nav-link-side" href="{{ url_for('auth.login') }}">
+                <span class="nav-icon"><i class="bi bi-box-arrow-in-right"></i></span>
+                <span>Login</span>
+            </a>
+        </nav>
+
+        <!-- Footer del sidebar -->
+        <div class="sidebar-footer">
+            <div class="user-card">
+                <div class="user-avatar">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <div>
+                    <div class="user-name">Administrador</div>
+                    <div class="user-role">Admin</div>
+                </div>
+            </div>
+        </div>
+
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="main-content">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div>
+                <div class="topbar-title">{% block page_title %}Panel Principal{% endblock %}</div>
+                <div class="topbar-breadcrumb">Sistema de gestion medica</div>
+            </div>
+            <div class="topbar-right">
+                <div class="topbar-badge" title="Notificaciones">
+                    <i class="bi bi-bell"></i>
+                </div>
+                <div class="topbar-badge" title="Configuracion">
+                    <i class="bi bi-gear"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENIDO DE CADA PAGINA -->
+        <div class="page-body">
+            {% block content %}{% endblock %}
+        </div>
+
+    </div>
+</div>
+
+<!-- Marcar link activo segun URL actual -->
+<script>
+    const links = document.querySelectorAll('.nav-link-side');
+    links.forEach(link => {
+        if (link.href === window.location.href) {
+            link.classList.add('active');
+        }
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
